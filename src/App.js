@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import LoginForm from './components/LoginForm';
+import Welcome from './components/Welcome';
 import './App.css';
 
 function App() {
@@ -10,9 +12,9 @@ function App() {
     email: "jose@larnu.com",
     discordId: "310544245155168256"
   });
+
   const [token, setToken] = useState(null);
   const [logged, setLogged] = useState(false);
-
 
   const handleChange = (event) => {
     setValues((prevValues) => ({
@@ -34,6 +36,8 @@ function App() {
       .then(res => res.data.token)
       .then(token => {
         setToken(token);
+        localStorage.setItem('token', token);
+        console.log(token)
         setLogged(true);
       });
   }
@@ -43,67 +47,17 @@ function App() {
     login();
   }
 
-  const Form = () => {
-    return (
-      <form className='form' onSubmit={submit}>
-        <div>
-          <label>email</label>
-          <input 
-            type="email"
-            name='email'
-            value={values.email || ''}
-            onChange={handleChange}
-            placeholder='email'
-            required
-          />
-        </div>
-        <div>
-          <label>discordId</label>
-          <input 
-            type="text"
-            name='discordId'
-            value={values.discordId || ''}
-            onChange={handleChange}
-            placeholder='Discord Id'
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    );
-  }
-
-  const Welcome = () => {
-
-    const [checked, setChecked] = useState(false);
-    const [data, setData] = useState(null);
-
-    async function checkToken() {
-      axios.get(`${baseUrl}/auth/check`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then(res => {
-        setData(res.data);
-        setChecked(true);
-      })
-    }
-
-    useEffect(() => {
-      checkToken();
-    }, []);
-
-    return (
-      <>
-        { checked ? <div>Welcome {data.username}</div> : <div>Loading...</div>} 
-      </>
-    )
-  }
-
   return (
     <div className="App">
       {
-        logged ? <Welcome/> : <Form/>
+          logged ? <Welcome
+           token={token}
+
+          />:< LoginForm  
+            values={values} 
+            onChange={handleChange}
+            submit={submit}
+          />        
       }
     </div>
   );
