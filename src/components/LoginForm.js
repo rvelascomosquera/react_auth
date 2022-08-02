@@ -3,6 +3,7 @@ import './LoginForm.css';
 
 export default function LoginForm (props) {
 
+
   return (
     <form className='form' onSubmit={props.submit}>
       <h1>Sign in to Discord </h1>
@@ -12,7 +13,7 @@ export default function LoginForm (props) {
           type="email"
           name='email'
           value={props.values.email || ''}
-          onChange={props.handleChange}
+          onChange={props.onChange}
           placeholder='email'
           required
         />
@@ -23,7 +24,7 @@ export default function LoginForm (props) {
           type="text"
           name='discordId'
           value={props.values.discordId || ''}
-          onChange={props.handleChange}
+          onChange={props.onChange}
           placeholder='Discord Id'
           required
         />
