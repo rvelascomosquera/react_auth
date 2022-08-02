@@ -21,6 +21,14 @@ function App() {
     }));
   }
 
+  useEffect(()  => {
+    // checkear si existe un token en el localStorage
+    // si no existe, mostrar formulario de login
+    // checkear si ese token es valido (endpoint check)
+    // si es valido, setear logged a true
+    // si no es valido, eliminar token de localStorage mostrar formulario de login
+  });
+
   function login() {
     axios.post(`${baseUrl}/auth/login`, values)
       .then(res => res.data.token)
@@ -29,8 +37,6 @@ function App() {
         setLogged(true);
       });
   }
-
-
 
   function submit(e) {
     e.preventDefault();
@@ -89,7 +95,7 @@ function App() {
 
     return (
       <>
-        { checked ? <div>Welcome {data.id}</div> : <div>Loading...</div>} 
+        { checked ? <div>Welcome {data.username}</div> : <div>Loading...</div>} 
       </>
     )
   }
